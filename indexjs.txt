@@ -1,0 +1,62 @@
+function mostrarSeccio(num) {
+    // Amaga totes les seccions
+    document.querySelectorAll(".seccio").forEach(sec => sec.style.display = "none");
+
+    // Mostra la secció seleccionada
+    document.getElementById("seccio_" + num).style.display = "flex";
+
+    // Actualitza botó actiu
+    document.querySelectorAll("#menu i").forEach(i => i.classList.remove("actiu"));
+    let boto = document.getElementById("boto_" + num);
+    if (boto) boto.classList.add("actiu");
+}
+
+// Mostrar la secció 0 en iniciar
+mostrarSeccio(0);
+
+// ---- VALIDACIÓ ----
+
+let btnInicia = document.getElementById("btn_inicia");
+let btnNou = document.getElementById("btn_nou");
+
+btnNou.onclick = function () {
+    let usuari = document.getElementById("nom_usuari").value.trim();
+    let pass = document.getElementById("contrasenya").value;
+
+    if (!usuari || !pass) {
+        alert("Cal omplir tots els camps.");
+        return;
+    }
+
+    localStorage.setItem("usuari", usuari);
+    localStorage.setItem("pass", pass);
+
+    alert("Usuari registrat correctament!");
+};
+
+btnInicia.onclick = function () {
+    let usuari = document.getElementById("nom_usuari").value.trim();
+    let pass = document.getElementById("contrasenya").value;
+
+    let uGuardat = localStorage.getItem("usuari");
+    let pGuardat = localStorage.getItem("pass");
+
+    if (usuari === uGuardat && pass === pGuardat) {
+        mostrarSeccio(1);
+    } else {
+        alert("Credencials incorrectes!");
+    }
+};
+
+// ---- MENÚ ----
+
+document.getElementById("boto_1").onclick = () => mostrarSeccio(1);
+document.getElementById("boto_2").onclick = () => mostrarSeccio(2);
+document.getElementById("boto_3").onclick = () => mostrarSeccio(3);
+document.getElementById("boto_4").onclick = () => mostrarSeccio(4);
+
+// ---- SORTIR ----
+
+document.getElementById("boto_sortir").onclick = function () {
+    mostrarSeccio(0);
+};
